@@ -20,7 +20,7 @@ export const setupServer = () => {
   });
 
   app.use(contactsRouter);
-  app.use((req, res, next) => notFoundHandler(req, res, next));
+  app.use(notFoundHandler);
 
   app.use(errorHandler);
 
