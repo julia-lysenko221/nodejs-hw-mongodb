@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
-import { validateBody, isValidId } from '../middlewares/validateBody.js';
+import { validateBody } from '../middlewares/validateBody.js';
+import { isValidId } from '../middlewares/isValidId.js';
 import {
   createContactSchema,
   updateContactSchema,
-} from '../validation/contscts.js';
+} from '../validation/contacts.js';
 
 import {
   getContactsController,
