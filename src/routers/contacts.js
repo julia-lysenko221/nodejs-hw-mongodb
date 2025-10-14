@@ -16,6 +16,7 @@ import {
   deleteContactController,
 } from '../controllers/contacts.js';
 const router = Router();
+
 router.use(authenticate);
 
 router.get('/', ctrlWrapper(getContactsController));

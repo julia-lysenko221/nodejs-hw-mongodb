@@ -24,10 +24,15 @@ const contactSchema = new mongoose.Schema(
       required: true,
       default: 'personal',
     },
-    contactId: {
+    // contactId: {
+    //   type: Schema.Types.ObjectId,
+    //   required: true,
+    //   ref: 'users',
+    // },
+    userId: {
       type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
-      ref: 'users',
     },
   },
   {
