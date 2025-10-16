@@ -5,6 +5,15 @@ import { randomBytes } from 'crypto';
 
 import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/index.js';
 import { Session } from '../db/models/session.js';
+import jwt from 'jsonwebtoken';
+import { SMTP } from '../constants/index.js';
+import { getEnvVar } from '../utils/getEnvVar.js';
+import { sendEmail } from '../utils/sendMail.js';
+
+import handlebars from 'handlebars';
+import path from 'node:path';
+import fs from 'node:fs/promises';
+import { TEMPLATES_DIR } from '../constants/index.js';
 
 export const registerUser = async (payload) => {
   const user = await User.findOne({ email: payload.email });
@@ -91,6 +100,67 @@ export const sendResetEmail = async (email) => {
   if (!user) {
     throw createHttpError(404, 'User not found');
   }
+  const resetToken = jwt.sign(
+    {
+      sub: user._id,
+      email,
+    },
+    getEnvVar('JWT_SECRET'),
+    {
+      expiresIn: '15m',
+    },
+  );
 
-  //доповнимо її трохи пізніше
+  const resetPasswordTemplatePath = path.join(
+    TEMPLATES_DIR,
+    'reset-password-email.html',
+  );
+
+  const templateSource = (
+    await fs.readFile(resetPasswordTemplatePath)
+  ).toString();
+
+  const template = handlebars.compile(templateSource);
+  const html = template({
+    name: user.name,
+    link: `${getEnvVar('APP_DOMAIN')}/reset-password?token=${resetToken}`,
+  });
+
+  try {
+    await sendEmail({
+      from: getEnvVar(SMTP.SMTP_FROM),
+      to: email,
+      subject: 'Reset your password',
+      html,
+    });
+  } catch (err) {
+    throw createHttpError(
+      500,
+      'Failed to send the email, please try again later.',
+      err,
+    );
+  }
+};
+
+export const resetPassword = async (payload) => {
+  let entries;
+
+  try {
+    entries = jwt.verify(payload.token, getEnvVar('JWT_SECRET'));
+  } catch (err) {
+    throw createHttpError(401, 'Token is expired or invalid.', err);
+  }
+
+  const user = await User.findOne({
+    email: entries.email,
+    _id: entries.sub,
+  });
+
+  if (!user) {
+    throw createHttpError(404, 'User not found');
+  }
+
+  const encryptedPassword = await bcrypt.hash(payload.password, 10);
+
+  await User.updateOne({ _id: user._id }, { password: encryptedPassword });
 };
