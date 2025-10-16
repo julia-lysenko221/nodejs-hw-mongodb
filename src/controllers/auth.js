@@ -3,6 +3,7 @@ import { loginUser } from '../services/auth.js';
 import { ONE_DAY } from '../constants/index.js';
 import { logoutUser } from '../services/auth.js';
 import { refreshUsersSession } from '../services/auth.js';
+import { sendResetEmail } from '../services/auth.js';
 
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
@@ -72,4 +73,13 @@ export const logoutUserController = async (req, res) => {
   res.clearCookie('refreshToken');
 
   res.status(204).send();
+};
+
+export const sendResetEmailController = async (req, res) => {
+  await sendResetEmail(req.body.email);
+  res.json({
+    message: 'Reset password email has been successfully sent!',
+    status: 200,
+    data: {},
+  });
 };
