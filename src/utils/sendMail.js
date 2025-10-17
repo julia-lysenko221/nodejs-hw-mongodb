@@ -12,8 +12,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export async function sendEmail(mail) {
-  mail.from = 'juliya.deleh@gmail.com';
-
-  await transporter.sendEmail(mail);
-}
+export const sendEmail = async (options) => {
+  return await transporter.sendMail(options);
+};
