@@ -16,7 +16,6 @@ requestBody:
           - email
           - isFavourite
           - contactType
-          - userId
           - photo
         properties:
           name:
@@ -40,10 +39,6 @@ requestBody:
             enum: ['work', 'home', 'personal']
             description: Defines the category of the contact
             example: home
-          userId:
-            type: string
-            description: Contacts owner id
-            example: 68efd834f1781f960b1e7a6c
           photo:
             type: string
             format: binary

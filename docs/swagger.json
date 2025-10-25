@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000"
+      "url": "https://nodejs-hw-mongodb-yb50.onrender.com"
     }
   ],
   "tags": [
@@ -161,7 +161,6 @@
                   "email",
                   "isFavourite",
                   "contactType",
-                  "userId",
                   "photo"
                 ],
                 "properties": {
@@ -194,11 +193,6 @@
                     ],
                     "description": "Defines the category of the contact",
                     "example": "home"
-                  },
-                  "userId": {
-                    "type": "string",
-                    "description": "Contacts owner id",
-                    "example": "68efd834f1781f960b1e7a6c"
                   },
                   "photo": {
                     "type": "string",
@@ -357,7 +351,7 @@
               "type": "string",
               "example": "65ca67e7ae7f10c88b598384"
             },
-            "description": "The ID of the contact to update"
+            "description": "The id of the contact to update"
           }
         ],
         "requestBody": {
@@ -365,15 +359,7 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "name",
-                  "phoneNumber",
-                  "email",
-                  "isFavourite",
-                  "contactType",
-                  "userId",
-                  "photo"
-                ],
+                "example": "65ca67e7ae7f10c88b598384",
                 "properties": {
                   "name": {
                     "type": "string",
@@ -404,11 +390,6 @@
                     ],
                     "description": "Defines the category of the contact",
                     "example": "home"
-                  },
-                  "userId": {
-                    "type": "string",
-                    "description": "Contacts owner id",
-                    "example": "68efd834f1781f960b1e7a6c"
                   },
                   "photo": {
                     "type": "string",

@@ -12,20 +12,13 @@ parameters:
     schema:
       type: string
       example: '65ca67e7ae7f10c88b598384'
-    description: The ID of the contact to update
+    description: The id of the contact to update
 requestBody:
   content:
     multipart/form-data:
       schema:
         type: object
-        required:
-          - name
-          - phoneNumber
-          - email
-          - isFavourite
-          - contactType
-          - userId
-          - photo
+        example: '65ca67e7ae7f10c88b598384'
         properties:
           name:
             type: string
@@ -48,16 +41,11 @@ requestBody:
             enum: ['work', 'home', 'personal']
             description: Defines the category of the contact
             example: home
-          userId:
-            type: string
-            description: Contacts owner id
-            example: 68efd834f1781f960b1e7a6c
           photo:
             type: string
             default: null
             description: Contact avatar
             example: https://res.cloudinary.com/dha4xvgfi/image/upload/v1759947947/aclxd7sbpsrb8hviowbe.jpg
-
 responses:
   '200':
     description: Update contact
