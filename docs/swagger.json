@@ -393,7 +393,7 @@
                   },
                   "photo": {
                     "type": "string",
-                    "default": null,
+                    "format": "binary",
                     "description": "Contact avatar",
                     "example": "https://res.cloudinary.com/dha4xvgfi/image/upload/v1759947947/aclxd7sbpsrb8hviowbe.jpg"
                   }
